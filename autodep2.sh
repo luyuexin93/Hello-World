@@ -7,9 +7,9 @@
 
 
 tomcathome='/usr/tomcat/apache-tomcat-8.5.24'
-url='http://devint-jenkins.zjipst.com/jenkins/job/psb2.0-monitor/ws/trunk/com.zjipst.psb.webapp/target/psb-mmc.war'
+url='http://devint-jenkins.xxxx.com/jenkins/job/psb2.0-monitor/ws/trunk/com.xxxx.psb.webapp/target/psb-mmc.war'
 oldmd5=''
-mailuser='luyuexin@zjipst.com zhengwenqian@zjipst.com tanxiaoqin@zjipst.com liukan@zjipst.com'
+mailuser='xxxx@xxxx.com xxxx@xxxx.com xxxx@xxxx.com xxxx@xxxx.com'
 
 if [ -f "/root/psb-mmc/psb-old.war" ]; then
 oldmd5=`md5sum /root/psb-mmc/psb-old.war`	
