@@ -21,12 +21,22 @@ wget -O /root/psb-mmc/psb-new.war $url || { echo -e "\033[31m download project.w
 
 ## diff new.war old.war if same stop replace and exit
 newmd5=`md5sum /root/psb-mmc/psb-new.war`
-if [ "${newmd5%% *}" == "${oldmd5%% *}" ];then echo -e " \033[31m the new.war has nothing changed, please check  \033[0m";exit 1 ; fi
+#if [ "${newmd5%% *}" == "${oldmd5%% *}" ];then echo -e " \033[31m the new.war has nothing changed, please check  \033[0m";exit 1 ; fi
 
 ## start to replace new war
 echo -e "\033[43m stop tomcat service \033[0m"
-sh $tomcathome/bin/shutdown.sh
-sleep 3
+pid=`ps -ef | grep -v 'grep '| grep tomcat | awk '{print $2}'` 
+kill -9 $pid
+##sh $tomcathome/bin/shutdown.sh
+##sleep 2
+pid2=`ps -ef | grep -v 'grep '| grep tomcat | awk '{print $2}'`
+echo $pid2
+if test -z $pid2 
+then
+  echo "tomcat process has killed" ;
+else
+  kill -9 $pid2    
+fi
 
 echo -e  " \033[43m remove old project and replace \033[0m"
 echo ">>>>"
@@ -40,7 +50,9 @@ mv /root/psb-mmc/psb-new.war /root/psb-mmc/psb-old.war
 
 echo -e "\033[43m start tomcat service>> \033[0m "
 $tomcathome/bin/startup.sh
-
+newpid=`ps -ef | grep -v 'grep '| grep tomcat | awk '{print $2}'`
+echo "tomcat new pid is $newpid"
+echo "Auto Deploy PSB end please CHECK: DeployTime：`date '+%Y-%m-%d %H:%M:%S'`"| 
 echo -e "\033[42m ----------deploy end ,please check -----------\033[0m "
 
 mail -s "Auto Deploy PSB end ! Please CHECK.  DeployTime：`date '+%Y-%m-%d %H:%M:%S'`" $mailuser < /root/test/mailtext.txt
