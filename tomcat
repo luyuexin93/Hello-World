@@ -1,0 +1,24 @@
+#!/bin/bash
+#description :Tomcat 8 Start Stop Restart
+#processname:tomcat8
+#chkconfig:234 20 80
+JAVA_HOME=/usr/java/jdk1.8.0_151
+PATH=$JAVA_HOME/bin:$PATH
+export PATH
+
+CATALINA_HOME=/usr/tomcat/apache-tomcat-8.5.24
+case $1 in
+start)
+sh $CATALINA_HOME/bin/startup.sh
+;;
+stop)
+sh $CATALINA_HOME/bin/shutdown.sh
+;;
+restart)
+sh $CATALINA_HOME/bin/shutdown.sh
+sh $CATALINA_HOME/bin/startup.sh
+;;
+esac
+
+exit 0
+

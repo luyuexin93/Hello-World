@@ -2,14 +2,14 @@
 ################
 #file_name:autodep.sh
 #description：auto get psb.war from jenkins and replace old tomcat app
-#last_edit: luyuexin 2018-7-3 :add md5sum check
+#last_edit: luyuexin 2018-7-4:
 ################
 
 
 tomcathome='/usr/tomcat/apache-tomcat-8.5.24'
 url='http://devint-jenkins.xxxx.com/jenkins/job/psb2.0-monitor/ws/trunk/com.xxxx.psb.webapp/target/psb-mmc.war'
 oldmd5=''
-mailuser='xxxx@xxxx.com xxxx@xxxx.com xxxx@xxxx.com xxxx@xxxx.com'
+mailaddrs='xxxx@xxxx.com xxxx@xxxx.com xxxx@xxxx.com xxxx@xxxx.com'
 
 if [ -f "/root/psb-mmc/psb-old.war" ]; then
 oldmd5=`md5sum /root/psb-mmc/psb-old.war`	
@@ -49,12 +49,13 @@ rm -rf /root/psb-mmc/psb-old.war
 mv /root/psb-mmc/psb-new.war /root/psb-mmc/psb-old.war
 
 echo -e "\033[43m start tomcat service>> \033[0m "
-$tomcathome/bin/startup.sh
+#$tomcathome/bin/startup.sh
+service tomcat start
 newpid=`ps -ef | grep -v 'grep '| grep tomcat | awk '{print $2}'`
 echo "tomcat new pid is $newpid"
 echo "Auto Deploy PSB end please CHECK: DeployTime：`date '+%Y-%m-%d %H:%M:%S'`"| 
 echo -e "\033[42m ----------deploy end ,please check -----------\033[0m "
 
-mail -s "Auto Deploy PSB end ! Please CHECK.  DeployTime：`date '+%Y-%m-%d %H:%M:%S'`" $mailuser < /root/test/mailtext.txt
+mail -s "Auto Deploy PSB end ! Please CHECK.  DeployTime：`date '+%Y-%m-%d %H:%M:%S'`" $mailaddrs < /root/test/mailtext.txt
 
 
