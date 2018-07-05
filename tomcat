@@ -22,8 +22,9 @@ status)
     #
     # Restart Tomcat
     #
-    ps ax --width=1000 | grep "[o]rg.apache.catalina.startup.Bootstrap" | awk '{printf $1 " "}' | wc | awk '{print $2}' > /tmp/tomcat_process_count.txt
-    read line < /tmp/tomcat_process_count.txt
+    #ps ax --width=1000 | grep "[o]rg.apache.catalina.startup.Bootstrap" | awk '{printf $1 " "}' | wc | awk '{print $2}' > /tmp/tomcat_process_count.txt
+    #read line < /tmp/tomcat_process_count.txt
+	line=`ps -ef | grep -v | grep tomcat | awk '{print $2}'|wc -w`
     if [ $line -gt 0 ]; then
        echo -n "tomcat8 ( pid "
        ps ax --width=1000 | grep "[o]rg.apache.catalina.startup.Bootstrap" | awk '{printf $1 " "}'
